@@ -1,19 +1,27 @@
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
     app: vote
   name: vote
 spec:
-  ports:
-  - name: "80"
-    nodePort: 30100
-    port: 80
-    protocol: TCP
-    targetPort: 80
+  replicas: 4
   selector:
-    app: vote
-  type: NodePort
-status:
-  loadBalancer: {}
+    matchLabels:
+      app: vote
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: vote
+    spec:
+      containers:
+      - image: schoolofdevops/vote:v4
+        name: vote
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
